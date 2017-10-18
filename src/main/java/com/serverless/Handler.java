@@ -21,9 +21,21 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
+		final String PARAM_NAME = "queryStringParameters";
+
 		LOG.info("received: " + input);
 
-		writeDynamoDB(input);
+		if(!input.containsKey(PARAM_NAME)) {
+			LOG.error("query param is required!");
+			return ApiGatewayResponse.builder()
+					.setStatusCode(500)
+					.setObjectBody("query param is required!")
+					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & serverless"))
+					.build();
+		}
+
+		Map<String, Object> params = (Map<String, Object>) input.get(PARAM_NAME);
+		writeDynamoDB(params);
 
 		Response responseBody = new Response("Go Serverless v1.x! Your function executed successfully!", input);
 		return ApiGatewayResponse.builder()
