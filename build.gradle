@@ -16,6 +16,12 @@ dependencies {
         'com.fasterxml.jackson.core:jackson-databind:2.8.5',
         'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
     )
+    testCompile (
+        'org.junit.jupiter:junit-jupiter-api:5.0.1'
+    )
+    testRuntime (
+        'org.junit.jupiter:junit-jupiter-engine:5.0.1'
+    )
 }
 
 // Task for building the zip file for upload
